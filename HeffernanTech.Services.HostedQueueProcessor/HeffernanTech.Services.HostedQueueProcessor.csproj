@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>net6.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RepositoryType>git</RepositoryType>
+    <Description>The HeffernanTech.Services.HostedQueueProcessor package provides a hosted service for processing items in a queue using a specified processor. This package is designed to be used with dependency injection in an ASP.NET Core application and depends on the HeffernanTech.Services.HostedQueueProcessor.Abstractions package.</Description>
+    <Company>HeffernanTech</Company>
+    <Authors>Robert Heffernan</Authors>
+    <Title>$(AssemblyName)</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HeffernanTech.Services.HostedQueueProcessor.Abstractions\HeffernanTech.Services.HostedQueueProcessor.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
