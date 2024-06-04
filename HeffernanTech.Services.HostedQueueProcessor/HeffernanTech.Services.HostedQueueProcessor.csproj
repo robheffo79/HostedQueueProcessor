@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HeffernanTech.Services.HostedQueueProcessor.Abstractions\HeffernanTech.Services.HostedQueueProcessor.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

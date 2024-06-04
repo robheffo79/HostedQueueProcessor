@@ -1,5 +1,4 @@
-﻿using HeffernanTech.Services.HostedQueueProcessor.Abstractions;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 
 namespace HeffernanTech.Services.HostedQueueProcessor
 {

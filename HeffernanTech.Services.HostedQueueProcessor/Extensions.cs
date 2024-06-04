@@ -20,7 +20,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor
 		/// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
 		/// <param name="options">An optional action to configure the <see cref="QueueWorkerOptions"/>.</param>
 		/// <returns>The same service collection so that multiple calls can be chained.</returns>
-		public static IServiceCollection AddHostedQueueWorker<T>(this IServiceCollection services, Action<QueueWorkerOptions> options = null)
+		public static IServiceCollection AddQueueWorker<T>(this IServiceCollection services, Action<QueueWorkerOptions> options = null)
 		{
 			services.AddOptions<QueueWorkerOptions>().Configure(configure =>
 			{

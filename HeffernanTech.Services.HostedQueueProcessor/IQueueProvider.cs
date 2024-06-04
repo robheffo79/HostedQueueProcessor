@@ -1,4 +1,4 @@
-﻿namespace HeffernanTech.Services.HostedQueueProcessor.Abstractions
+﻿namespace HeffernanTech.Services.HostedQueueProcessor
 {
 	/// <summary>
 	/// Defines a provider that manages a queue of items.
