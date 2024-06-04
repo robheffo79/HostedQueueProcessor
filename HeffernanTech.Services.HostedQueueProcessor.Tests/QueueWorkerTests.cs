@@ -1,4 +1,26 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// MIT License
+//
+// Copyright (c) 2024 Robert Heffernan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -25,7 +47,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public async Task StartAsync_ProcessesItemsFromQueue()
 		{
-			var worker = new QueueWorker<String>(_options, _logger, _mockProcessor.Object, _queueProvider);
+			QueueWorker<String> worker = new QueueWorker<String>(_options, _logger, _mockProcessor.Object, _queueProvider);
 
 			await worker.StartAsync(CancellationToken.None);
 
@@ -41,7 +63,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public async Task StopAsync_CancelsProcessing()
 		{
-			var worker = new QueueWorker<String>(_options, _logger, _mockProcessor.Object, _queueProvider);
+			QueueWorker<String> worker = new QueueWorker<String>(_options, _logger, _mockProcessor.Object, _queueProvider);
 
 			await worker.StartAsync(CancellationToken.None);
 
@@ -57,7 +79,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void ProcessItemAsync_NullItem_ThrowsArgumentNullException()
 		{
-			var worker = new QueueWorker<string>(_options, _logger, _mockProcessor.Object, _queueProvider);
+			QueueWorker<String> worker = new QueueWorker<String>(_options, _logger, _mockProcessor.Object, _queueProvider);
 
 			Assert.ThrowsExceptionAsync<ArgumentNullException>(() => worker.ProcessItemAsync(null, CancellationToken.None));
 		}
@@ -65,11 +87,15 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public async Task ProcessQueue_ExceptionInProcessing_LogsError()
 		{
-			_mockProcessor.Setup(p => p.Process(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+			// Arrange
+			_mockProcessor.Setup(p => p.Process(It.IsAny<String>(), It.IsAny<CancellationToken>()))
 						  .ThrowsAsync(new Exception("Processing error"));
 
-			var worker = new QueueWorker<string>(_options, _logger, _mockProcessor.Object, _queueProvider);
+			var mockLogger = new Mock<ILogger<QueueWorker<String>>>();
 
+			QueueWorker<String> worker = new QueueWorker<String>(_options, mockLogger.Object, _mockProcessor.Object, _queueProvider);
+
+			// Act
 			await worker.StartAsync(CancellationToken.None);
 
 			_queueProvider.Enqueue("test");
@@ -77,7 +103,15 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 			await Task.Delay(100); // Allow some time for processing
 
 			// Assert that the error was logged
-			// Here we assume that the logger logs the error, you might need a proper logger mock to verify logging
+			mockLogger.Verify(
+				x => x.Log(
+					LogLevel.Error,
+					It.IsAny<EventId>(),
+					It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Processing error")),
+					It.IsAny<Exception>(),
+					It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+				Times.Once
+			);
 		}
 	}
 }

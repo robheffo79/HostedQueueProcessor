@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2024 Robert Heffernan
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 {
 	[TestClass]
@@ -6,7 +28,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void Enqueue_NullItem_ThrowsArgumentNullException()
 		{
-			var queueProvider = new ConcurrentQueueProvider<string>();
+			ConcurrentQueueProvider<String> queueProvider = new ConcurrentQueueProvider<String>();
 
 			Assert.ThrowsException<ArgumentNullException>(() => queueProvider.Enqueue(null));
 		}
@@ -14,7 +36,7 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void Enqueue_Item_SetsWaitHandle()
 		{
-			var queueProvider = new ConcurrentQueueProvider<string>();
+			ConcurrentQueueProvider<String> queueProvider = new ConcurrentQueueProvider<String>();
 
 			queueProvider.Enqueue("test");
 
@@ -24,10 +46,10 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void TryDequeue_Item_ReturnsTrue()
 		{
-			var queueProvider = new ConcurrentQueueProvider<string>();
+			ConcurrentQueueProvider<String> queueProvider = new ConcurrentQueueProvider<String>();
 			queueProvider.Enqueue("test");
 
-			var result = queueProvider.TryDequeue(out var item);
+			Boolean result = queueProvider.TryDequeue(out String item);
 
 			Assert.IsTrue(result);
 			Assert.AreEqual("test", item);
@@ -36,9 +58,9 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void TryDequeue_EmptyQueue_ReturnsFalse()
 		{
-			var queueProvider = new ConcurrentQueueProvider<string>();
+			ConcurrentQueueProvider<String> queueProvider = new ConcurrentQueueProvider<String>();
 
-			var result = queueProvider.TryDequeue(out var item);
+			Boolean result = queueProvider.TryDequeue(out String item);
 
 			Assert.IsFalse(result);
 			Assert.IsNull(item);
@@ -47,11 +69,11 @@ namespace HeffernanTech.Services.HostedQueueProcessor.Tests
 		[TestMethod]
 		public void Clear_QueueIsEmpty()
 		{
-			var queueProvider = new ConcurrentQueueProvider<string>();
+			ConcurrentQueueProvider<String> queueProvider = new ConcurrentQueueProvider<String>();
 			queueProvider.Enqueue("test");
 			queueProvider.Clear();
 
-			var result = queueProvider.TryDequeue(out var item);
+			Boolean result = queueProvider.TryDequeue(out String item);
 
 			Assert.IsFalse(result);
 			Assert.IsNull(item);

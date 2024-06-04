@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `HeffernanTech.Services.HostedQueueProcessor` package provides a hosted service for processing items in a queue using a specified processor. This package is designed to be used with dependency injection in an ASP.NET Core application and depends on the `HeffernanTech.Services.HostedQueueProcessor.Abstractions` package.
+The `HeffernanTech.Services.HostedQueueProcessor` package provides a hosted service for processing items in a queue using a specified processor. This package is designed to be used with dependency injection in an ASP.NET Core application.
 
 ## Features
 
@@ -17,12 +17,6 @@ To install the `HeffernanTech.Services.HostedQueueProcessor` package, use the fo
 
 ```sh
 dotnet add package HeffernanTech.Services.HostedQueueProcessor
-```
-
-Additionally, install the `HeffernanTech.Services.HostedQueueProcessor.Abstractions` package:
-
-```sh
-dotnet add package HeffernanTech.Services.HostedQueueProcessor.Abstractions
 ```
 
 ## Usage
@@ -49,7 +43,7 @@ dotnet add package HeffernanTech.Services.HostedQueueProcessor.Abstractions
         services.AddSingleton<IQueueProcessor<MyItem>, MyQueueProcessor>();
         services.AddSingleton<IQueueProvider<MyItem>, ConcurrentQueueProvider<MyItem>>();
 
-        services.AddHostedQueueWorker<MyItem>(options =>
+        services.AddQueueWorker<MyItem>(options =>
         {
             options.MaxWorkerTasks = 4; // Set the maximum number of concurrent worker tasks
         });

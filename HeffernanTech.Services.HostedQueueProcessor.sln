@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeffernanTech.Services.Host
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeffernanTech.Services.HostedQueueProcessor.Tests", "HeffernanTech.Services.HostedQueueProcessor.Tests\HeffernanTech.Services.HostedQueueProcessor.Tests.csproj", "{E401DFC6-848D-4FCE-B4E6-269C5F28278D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D12F0841-CD6F-4331-95E1-63FF07BDA522}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Icon.png = Icon.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
